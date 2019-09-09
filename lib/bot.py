@@ -9,6 +9,7 @@ class Bot:
 
     users = []
     posts = []
+    likes = []
 
     def __init__(self, number_of_users, max_posts_per_user, max_likes_per_user, url):
         self.number_of_users = number_of_users
@@ -40,3 +41,12 @@ class Bot:
                     post.publish(self.url + 'api/posts/', user.token)
                     self.posts.append(post)
         return self.posts
+
+    def add_likes(self):
+        for user in self.users:
+            random.shuffle(self.posts)
+            for index in range(random.randint(1, int(self.max_likes_per_user))):
+                post = self.posts[index]
+                post.like(self.url + 'api/posts/{}/like/', user.token)
+                self.likes.append(post)
+        return self.likes

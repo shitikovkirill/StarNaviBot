@@ -1,0 +1,2 @@
+class BotRequestError(Exception):
+    pass

@@ -1,11 +1,12 @@
 import requests
 
+from lib.error import BotRequestError
+
 
 class User:
 
     id = None
     token = None
-    errors = []
 
     def __init__(self, name, email, password):
         self.name = name
@@ -26,10 +27,10 @@ class User:
 
     def __send_request(self, url, status, data):
         response = requests.post(url=url, data=data)
-        rdata = response.json()
 
         if response.status_code != status:
-            self.errors.append({"status": response.status_code, "response_data": rdata})
+            raise BotRequestError(f"Status: {response.status_code}, response_data: {response.text}")
+        rdata = response.json()
 
         return response.status_code, rdata
 
